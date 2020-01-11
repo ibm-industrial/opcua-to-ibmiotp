@@ -1,9 +1,9 @@
-# Transfer OPC-UA Data to the IBM Watson IoT platform
+# Transfer OPC-UA Data to the IBM Internet of Things platform
 While modern information technology/IT systems use protocols like http, websockets, MQTT  (for IoT) and architectural styles (e.g. REST),   for operations technology/OT systems in manufacturing and plants a variety of other protocols are being used. In order to use this data a protocol conversion is needed. Fortunately OPC UA becomes a standard protocol and OPC UA servers can be used to collect that later can be consumed in OT (e.g. predictive maintenance) or combined OT/IT (worker assistants) e.g. uses cases . 
   
 ![Data flow](OpcuaToWiotp.jpeg)
 
-These are the steps to consume (simulated) OPC UA data on the Watson IoT platform.
+These are the steps to consume (simulated) OPC UA data on the IoT platform.
 
 ## OPC UA Server 
 * create a [Ubuntu VM](https://cloud.ibm.com/classic/devices) with an Ubuntu 16.04 on the IBM Cloud (register to the IBM Cloud, if not done already) with a public IP address
@@ -31,15 +31,15 @@ We are using the Prosys OPC-UA Simulation server to create some OPC-UA simulatio
 * Optional (for testing purposes): install an OPC UA client on your local machine and connect to the OPC UA server using the ocp.tcp address
 
 ## Node-RED application
-Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation server and send them to the Watson IoT platform
+Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation server and send them to the IoT platform
 * install Node-RED locally, as a Docker container or as part of the [Node-RED starter kit] (https://cloud.ibm.com/catalog/starters/node-red-starter) on the IBM Cloud
 * install the *node-red-contrib-opcua* and *node-red-dashboard* nodes via the Hamburger icon > Manage palette
 * import the [Node-RED flow](./node-red-flow) 
 * configure the OPC-UA client node *OPC-UA*: Endpoint = opc.tcp://<your-opc-ua-address>:53530/OPCUA/SimulationServer
 
 To be completed:
-* configure the Watson IoT node
+* configure the IBM IoT node
 
-## Watson IoT Platform
+## IoT Platform
 * create an [Internet of Things Platform service(]https://cloud.ibm.com/catalog/services/internet-of-things-platform) and note down your Internet of Things Organization ID, e.g. lt9l36
 * create a device, which represents the interface to the Node-RED application; note down Device Type (e.g. OPCUA), Device ID (e.g. opc_ua_1) and the Authentication Token
