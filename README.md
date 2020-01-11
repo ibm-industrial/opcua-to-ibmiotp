@@ -41,5 +41,5 @@ To be completed:
 * configure the Watson IoT node
 
 ## Watson IoT Platform
-* Create Watson IoT Platform service
-* Create a device, note down Organization ID, Device Type (e.g. OPCUA), and Device ID (e.g. opc_ua_1) and the Authentication Token
+* create an [Internet of Things Platform service(]https://cloud.ibm.com/catalog/services/internet-of-things-platform) and note down your Internet of Things Organization ID, e.g. lt9l36
+* create a device, which represents the interface to the Node-RED application; note down Device Type (e.g. OPCUA), Device ID (e.g. opc_ua_1) and the Authentication Token
