@@ -1,5 +1,9 @@
 # How to move OPC UA Data to the Watson IoT platform
-While modern information technology/IT systems use protocols like http, websockets, MQTT  (for IoT) and architectural styles (e.g. REST),   for operations technology/OT systems in manufacturing and plants a variety of other protocols are being used. In order to use this data a protocol conversion is needed. Fortunately OPC UA becomes a standard protocol and OPC UA servers can be used to collect that later can be consumed in OT (e.g. predictive maintenance) or combined OT/IT (worker assistants) e.g. uses cases . These are the steps to consume (simulated) OPC UA data on the Watson IoT platform.
+While modern information technology/IT systems use protocols like http, websockets, MQTT  (for IoT) and architectural styles (e.g. REST),   for operations technology/OT systems in manufacturing and plants a variety of other protocols are being used. In order to use this data a protocol conversion is needed. Fortunately OPC UA becomes a standard protocol and OPC UA servers can be used to collect that later can be consumed in OT (e.g. predictive maintenance) or combined OT/IT (worker assistants) e.g. uses cases . 
+
+![Data flow]('./OPC-UA to WIoTP.jpeg')
+
+These are the steps to consume (simulated) OPC UA data on the Watson IoT platform.
 
 ## OPC UA Server 
 * Create Ubuntu Device (virtual machine) on the IBM Cloud (register to the IBM Cloud, if not done already)
