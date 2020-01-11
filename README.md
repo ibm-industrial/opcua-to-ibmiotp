@@ -48,6 +48,6 @@ Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation s
 * create an [Internet of Things Platform service(]https://cloud.ibm.com/catalog/services/internet-of-things-platform) and note down your Internet of Things Organization ID, e.g. lt9l36
 * create an Internet of Things *device*, which represents the interface to the Node-RED application; note down Device Type (e.g. OPCUA), Device ID (e.g. opc_ua_1) and the Authentication Token
 * create an IoT app (under https://youriotorgid.internetofthings.ibmcloud.com/dashboard/apps/browse) note down the API Key and the API Token, use *Standard App* as roleof your device
-* in Node-RED app click on the inject node, there should be an event under recet events
+* in Node-RED app click on the inject node, this triggers the opc ua client node that pulls the current data from the OPC-UA serverq; subsequently the OPC UA data is transfered to the IoT platform, there should be an event showing up under recent events
 
 
