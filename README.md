@@ -6,13 +6,14 @@ While modern information technology/IT systems use protocols like http, websocke
 These are the steps to consume (simulated) OPC UA data on the Watson IoT platform.
 
 ## OPC UA Server 
-* Create Ubuntu Device (virtual machine) on the IBM Cloud (register to the IBM Cloud, if not done already)
+* Create device with an Ubuntu 16.04 virtual machine on the IBM Cloud (register to the IBM Cloud, if not done already) with a public IP address
 * setup security groups for the ports that are needed for that decice opc ua, ssh
 
-VNC is used to get graphical interface to the OPC-UA server
-* Install the VNC Server in the Ubuntu VM
-* Install VPN Viewer on your local machine
-* login on the Ubuntu GUI via VNC
+VNC is used to get a graphical interface/desktop to the Ubuntu VM running the OPC-UA server
+* Install the [VNC Server](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-16-04) in the Ubuntu VM
+* run the VNC server (vncserver)
+* Install a VPN Viewer on your local machine
+* login to the Ubuntu desktop via VNC
 
 We are using the Prosys OPC-UA Simulation server to create some OPC-UA simulation data
 * Download and install the Prosys OPC UA Simulation Server, you might need to install a browser (e.g. Firefox first)
@@ -27,5 +28,5 @@ We are using the Prosys OPC-UA Simulation server to create some OPC-UA simulatio
 Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation server and send them to the Watson IoT platform
 * Install Node-RED on the IBM Cloud
 * Import the Node-RED flow Move
-* configure the OPC UA node
-* configure the Watson IoT node
+* Configure the OPC UA node
+* Configure the Watson IoT node
