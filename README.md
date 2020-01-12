@@ -6,14 +6,14 @@ While modern information technology/IT systems use protocols like http, websocke
 These are the steps to consume (simulated) OPC UA data on the IoT platform. Note, that the data is pulled from the OPC-UA server. Meanwhile the OPC-UA protocol supports publish/subscribe, see the [announcement](https://opcfoundation.org/news/press-releases/opc-foundation-announces-opc-ua-pubsub-release-important-extension-opc-ua-communication-platform/) of the OPC foundation.
 
 ## OPC UA Server 
-* create a [Ubuntu VM](https://cloud.ibm.com/classic/devices) with an Ubuntu 16.04 on the IBM Cloud (register to the IBM Cloud, if not done already) with a public IP address
+* create a [Ubuntu VM](https://cloud.ibm.com/classic/devices) with an Ubuntu 16.04 on the IBM Cloud (register to the IBM Cloud, if not done already) with a public IP address (your-opc-ua-server-address)
 * note down the root password
 * setup [security groups](https://cloud.ibm.com/classic/security/securitygroups) for the ports that are needed for that device: allow_opc_ua/inbound&outbound/53530, allow_ssh/inbound/22, allow_vnc/inbound/5900-5999 and assign them to the VM
 
 VNC is used to get a graphical interface/desktop to the Ubuntu VM running the OPC-UA server
 * ssh into the VM 
 ~~~~
-# ssh root@<public-address>
+# ssh root@<your-opc-ua-server-address>
 ~~~~
 * install the [VNC Server](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-16-04) in the Ubuntu VM
 * run the VNC server 
@@ -39,7 +39,7 @@ Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation s
 * install Node-RED locally, as a Docker container or as part of the [Node-RED starter kit] (https://cloud.ibm.com/catalog/starters/node-red-starter) on the IBM Cloud
 * install the *node-red-contrib-opcua*, *node-red-dashboard* and *node-red-contrib-scx-ibmiotapp* nodes via the Hamburger icon > Manage palette
 * import the [Node-RED flow](./node-red-flow) 
-* configure the OPC-UA client node *OPC-UA*: Endpoint = opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
+* configure the OPC-UA client node *OPC-UA*: Endpoint = opc.tcp://your-opc-ua-server-address:53530/OPCUA/SimulationServer
 * configure the IBM IoT node
 
 ## Test
