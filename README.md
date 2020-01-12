@@ -46,7 +46,9 @@ Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation s
 * go to https://youriotorgid.internetofthings.ibmcloud.com/dashboard/devices/browse
 * click on your device (OPCUA1) and *Recent Events*
 * in Node-RED app click on the inject node
-* the opc ua client node is pulling the current data from the OPC-UA server
+* the opc ua client node is pulling the current data from the OPC-UA server 
+![Node-RED Chart](NodeRedChart.jpg)
+
 * subsequently the OPC UA data is transfered to the IoT platform, there should be an event showing up under Recent Events
 
 
