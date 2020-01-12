@@ -8,24 +8,11 @@ These are the steps to consume (simulated) OPC UA data on the IoT platform. Note
 ## OPC UA Server 
 * create an [Ubuntu 16.04 VM](https://cloud.ibm.com/classic/devices) on the IBM Cloud (register to the IBM Cloud, if not done already) with a public IP address (your-opc-ua-server-address)
 * note down the root password of the Ubuntu VM
+* install a web browser from the command line
 * setup [security groups](https://cloud.ibm.com/classic/security/securitygroups) for the ports that are needed for that device: allow_opc_ua/inbound&outbound/53530, allow_ssh/inbound/22, allow_vnc/inbound/5900-5999 and assign them to the VM
 
-VNC is used to get a graphical interface/desktop to the Ubuntu VM running the OPC-UA server
-* ssh into the VM 
-~~~~
-# ssh root@<your-opc-ua-server-address>
-~~~~
-* install the [VNC Server](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-16-04) in the Ubuntu VM
-* run the VNC server 
-~~~~
-# vncserver 
-~~~~
-
-* install a VPN Viewer on your local machine, e.g. VNC Viewer
-* login to the Ubuntu desktop via VNC
-
 We are using the **Prosys OPC-UA Simulation server** to create some OPC-UA simulation data
-* download and install the [Prosys OPC-UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/), you might need to install a browser (e.g. Firefox) first
+* download and install the [Prosys OPC-UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/) via the Ubuntu desktop
 * run the Prosys OPC UA Simulation Server from the Ubuntu desktop and note down the ocp.tcp address, e.g. opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
 * active Options > Expert Mode
 * on the Simulation tab modify the simulation data that is needed
