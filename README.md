@@ -41,5 +41,5 @@ Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation s
 ![Node-RED Chart](NodeRedChart.jpg)
 
 * ... transfered to the IoT platform, there should be an event showing up under Recent Events
-
+![Recent Events](recentevents.jpg)
 
