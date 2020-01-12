@@ -31,7 +31,7 @@ Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation s
 * install the *node-red-contrib-opcua*, *node-red-dashboard* and *node-red-contrib-scx-ibmiotapp* nodes via the Hamburger icon > Manage palette
 * import the [Node-RED flow](./node-red-flow) 
 * configure the OPC-UA client node *OPC-UA*: Endpoint = opc.tcp://your-opc-ua-server-address:53530/OPCUA/SimulationServer
-* configure the IBM IoT node
+* configure the IBM IoT node: Device Type, Device ID, API Key, API Token, servername (youriotorgid.internetofthings.ibmcloud.com) 
 
 ## Test
 * go to https://youriotorgid.internetofthings.ibmcloud.com/dashboard/devices/browse
