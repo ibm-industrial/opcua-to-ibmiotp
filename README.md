@@ -16,10 +16,9 @@ VNC is used to get a graphical interface/desktop to the Ubuntu VM running the OP
 # ssh root@<public-address>
 ~~~~
 * install the [VNC Server](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-16-04) in the Ubuntu VM
-* run the VNC server in the background so it doesn't stop when you are closing the terminal session
-
+* run the VNC server 
 ~~~~
-# vncserver &
+# vncserver 
 ~~~~
 
 * install a VPN Viewer on your local machine, e.g. VNC Viewer
