@@ -12,7 +12,7 @@ These are the steps to consume (simulated) OPC UA data on the IoT platform. Note
 * setup [security groups](https://cloud.ibm.com/classic/security/securitygroups) for the ports that are needed for that device: allow_opc_ua/inbound&outbound/53530, allow_ssh/inbound/22, allow_vnc/inbound/5900-5999 and assign them to the VM
 
 We are using the **Prosys OPC-UA Simulation server** to create some OPC-UA simulation data
-* download and install the [Prosys OPC-UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/) via the Ubuntu desktop
+* download and install the [Prosys OPC-UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/) via the Ubuntu desktop, see also the [user manual](https://downloads.prosysopc.com/opcua/apps/JavaServer/dist/4.0.2-108/Prosys_OPC_UA_Simulation_Server_UserManual.pdf)
 * run the Prosys OPC UA Simulation Server from the Ubuntu desktop and note down the ocp.tcp address, e.g. opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
 * active Options > Expert Mode
 * on the Simulation tab modify the simulation data that is needed
