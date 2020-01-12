@@ -7,7 +7,7 @@ These are the steps to consume (simulated) OPC UA data on the IoT platform. Note
 
 ## OPC UA Server 
 * create an [Ubuntu 16.04 VM](https://cloud.ibm.com/classic/devices) on the IBM Cloud (register to the IBM Cloud, if not done already) with a public IP address (your-opc-ua-server-address)
-* note down the root password of the Ubuntu VM
+* note down the root password and the public IP address of the Ubuntu VM
 * install a web browser from the command line
 * setup [security groups](https://cloud.ibm.com/classic/security/securitygroups) for the ports that are needed for that device: allow_opc_ua/inbound&outbound/53530, allow_ssh/inbound/22, allow_vnc/inbound/5900-5999 and assign them to the VM
 
