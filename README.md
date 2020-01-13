@@ -3,7 +3,7 @@ While modern information technology/IT systems use protocols like http, websocke
   
 ![Data flow](OpcuaToWiotp.jpeg)
 
-These are the steps to consume (simulated) OPC UA data on the IoT platform. Note, that the data is pulled from the OPC UA server. The OPC UA protocol also supports publish/subscribe, see the [announcement](https://opcfoundation.org/news/press-releases/opc-foundation-announces-opc-ua-pubsub-release-important-extension-opc-ua-communication-platform/) of the OPC foundation, but that would be a subject for another project.
+Below are the steps to consume (simulated) OPC UA data on the IoT platform. Note, that the data is pulled from the OPC UA server. The OPC UA protocol also supports publish/subscribe, see the [announcement](https://opcfoundation.org/news/press-releases/opc-foundation-announces-opc-ua-pubsub-release-important-extension-opc-ua-communication-platform/) of the OPC foundation, but that would be a subject for another project.
 
 ## OPC UA Server 
 * create an [Ubuntu 16.04 VM](https://cloud.ibm.com/classic/devices) on the IBM Cloud (register to the IBM Cloud, if not done already) with a public IP address (your-opc-ua-server-address)
