@@ -25,7 +25,7 @@ We are using the **Prosys OPC-UA Simulation server** to create some OPC-UA simul
 * create an Internet of Things *device*, which represents the interface to the Node-RED application; note down the *Device Type* (e.g. *OPCUA*), *Device ID* (e.g. *OPCUA1*) and the *Authentication Token*
 * create an IoT app (under https://youriotorgid.internetofthings.ibmcloud.com/dashboard/apps/browse) note down the API Key and the *API Token*, use *Standard App* as role
 
-## Node-RED application
+## Node-RED Application
 Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation server and send them to the IoT platform
 * install Node-RED locally, as a Docker container or as part of the [Node-RED starter kit] (https://cloud.ibm.com/catalog/starters/node-red-starter) on the IBM Cloud
 * install the *node-red-contrib-opcua*, *node-red-dashboard* and *node-red-contrib-scx-ibmiotapp* nodes via the Hamburger icon > Manage palette
