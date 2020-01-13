@@ -13,7 +13,7 @@ These are the steps to consume (simulated) OPC UA data on the IoT platform. Note
 
 We are using the **Prosys OPC-UA Simulation server** to create some OPC-UA simulation data
 * download and install the [Prosys OPC-UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/) via the Ubuntu desktop, see also the [user manual](https://downloads.prosysopc.com/opcua/apps/JavaServer/dist/4.0.2-108/Prosys_OPC_UA_Simulation_Server_UserManual.pdf)
-* run the Prosys OPC UA Simulation Server from the Ubuntu desktop and note down the ocp.tcp address, e.g. opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
+* run the *Prosys OPC UA Simulation Server* from the Ubuntu desktop and note down the ocp.tcp address, e.g. opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
 * active Options > Expert Mode
 * on the Simulation tab modify the simulation data that is needed
 ![Simulation Data](./prosys.jpg)
@@ -21,9 +21,9 @@ We are using the **Prosys OPC-UA Simulation server** to create some OPC-UA simul
 * Optional (for testing purposes): install an OPC UA client on your local machine and connect to the OPC UA server using the ocp.tcp address
 
 ## IoT Platform
-* create an [Internet of Things Platform service](https://cloud.ibm.com/catalog/services/internet-of-things-platform) and note down your Internet of Things Organization ID, e.g. lt9l36
-* create an Internet of Things *device*, which represents the interface to the Node-RED application; note down Device Type (e.g. OPCUA), Device ID (e.g. OPCUA1) and the Authentication Token
-* create an IoT app (under https://youriotorgid.internetofthings.ibmcloud.com/dashboard/apps/browse) note down the API Key and the API Token, use *Standard App* as role
+* create an [Internet of Things Platform service](https://cloud.ibm.com/catalog/services/internet-of-things-platform) and note down your Internet of Things Organization ID, e.g. *lt9l36*
+* create an Internet of Things *device*, which represents the interface to the Node-RED application; note down the *Device Type* (e.g. *OPCUA*), *Device ID* (e.g. *OPCUA1*) and the *Authentication Token*
+* create an IoT app (under https://youriotorgid.internetofthings.ibmcloud.com/dashboard/apps/browse) note down the API Key and the *API Token*, use *Standard App* as role
 
 ## Node-RED application
 Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation server and send them to the IoT platform
@@ -35,11 +35,12 @@ Node-REDs used to receive any incoming OPC-UA messages from the OPC simulation s
 
 ## Test
 * go to https://youriotorgid.internetofthings.ibmcloud.com/dashboard/devices/browse
-* click on your device (OPCUA1) and *Recent Events*
-* in Node-RED app click on the inject node
-* the opc ua client node is pulling the current data from the OPC-UA server, data OPC-UA data is displayed on the dashboard and ...
+* click on your device (*OPCUA1*) and *Recent Events*
+* in Node-RED app open the *inject* node and modify the *Topic*, if needed. *Topic* is set to *ns=3;s=temp;datatype=Double*, which represents the namespace, the variable name and type
+* click on the *inject* node
+* the *OPC-UA* client node is pulling the current value of the variable from the OPC-UA server.  The payload of the *OPC-UA* node is then displayed on the dashboard and ...
 ![Node-RED Chart](NodeRedChart.jpg)
 
-* ... transfered to the IoT platform, there should be an event showing up under Recent Events
+* ... transfered to the IoT platform, there should be events showing up under *Recent Events*
 ![Recent Events](recentevents.jpg)
 
