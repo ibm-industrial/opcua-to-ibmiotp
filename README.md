@@ -28,19 +28,18 @@ We are using the **Prosys OPC UA Simulation server** to create some OPC UA simul
 ## Node-RED Application
 Node-REDs used to receive any incoming OPC UA messages from the OPC simulation server and send them to the IoT platform
 * install Node-RED locally, as a Docker container or as part of the [Node-RED starter kit] (https://cloud.ibm.com/catalog/starters/node-red-starter) on the IBM Cloud
-* install the *node-red-contrib-opcua*, *node-red-dashboard* and *node-red-contrib-scx-ibmiotapp* nodes via the Hamburger icon > Manage palette
+* install the *node-red-contrib-opcua*, *node-red-dashboard* and *node-red-contrib-ibm-watson-iot* nodes via the Hamburger icon > Manage palette
 * import the [Node-RED flow](./node-red-flow) 
+
+![Node-RED Flow](noderedflow.jpg)
 * configure the OPC UA client node *OPC-UA*: Endpoint = opc.tcp://your-opc-ua-server-address:53530/OPCUA/SimulationServer
-* configure the IBM IoT node: Device Type, Device ID, API Key, API Token, servername (youriotorgid.internetofthings.ibmcloud.com) 
+* configure the Watson IoT node: Device Type, Device ID, API Key, API Token, servername (youriotorgid.internetofthings.ibmcloud.com) 
 
 ## Test
 * go to https://youriotorgid.internetofthings.ibmcloud.com/dashboard/devices/browse
 * click on your device (*OPCUA1*) and *Recent Events*
 * in Node-RED app open the *inject* node and modify the *Topic*, if needed. *Topic* is set to *ns=3;s=temp;datatype=Double*, which represents the namespace, the variable name and type
 * click on the *inject* node
-* the *OPC UA* client node is pulling the current value of the variable from the OPC UA server.  The payload of the *OPC-UA* node is then displayed on the dashboard and ...
-![Node-RED Chart](NodeRedChart.jpg)
-
-* ... transfered to the IoT platform, there should be events showing up under *Recent Events*
+* the *OPC UA* client node is pulling the current value of the variable from the OPC UA server.  The payload of the *OPC-UA* node is then transfered to the IoT platform, there should be events showing up under *Recent Events*
 ![Recent Events](recentevents.jpg)
 
