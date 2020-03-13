@@ -66,3 +66,4 @@ Now the board is created and a card on that board can be configured.
 | Max           | 2           | 
  
 * select the card size and click on *Next*
+![Card](card.jpg)
