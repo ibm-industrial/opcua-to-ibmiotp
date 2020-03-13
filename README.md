@@ -66,4 +66,9 @@ Now the board is created and a card on that board can be configured.
 | Max           | 2           | 
  
 * select the card size and click on *Next*
+
+Now you can see the simulated temperature from the OPC UA server on the IoT platform.
+
 ![Card](card.jpg)
+
+The data can also be used by upstream applications.
