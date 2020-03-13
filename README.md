@@ -23,6 +23,7 @@ We are using the **Prosys OPC UA Simulation server** to create some OPC UA simul
 * Optional (for testing purposes): install an OPC UA client on your local machine and connect to the OPC UA server using the ocp.tcp address
 
 ## IoT Platform
+The IoT platform is used to receive MQTT events (https is possible as well). 
 * create an [Internet of Things Platform service](https://cloud.ibm.com/catalog/services/internet-of-things-platform) and note down your Internet of Things Organization ID, e.g. *lt9l36*
 * create an Internet of Things *device*, which represents the interface to the Node-RED application; note down the *Device Type* (e.g. *OPCUA*), *Device ID* (e.g. *OPCUA1*) and the *Authentication Token*
 
@@ -37,11 +38,31 @@ Node-REDs used to receive any incoming OPC UA messages from the OPC simulation s
 * configure the Watson IoT node: Organization, Server-Name (youriotorgid.internetofthings.ibmcloud.com), Device Type, Device ID, Auth Token, 
 
 ## Test
+Now we connect the Node-RED flow with the Watson IoT platform and check if we can see the tem events there.
 * go to https://youriotorgid.internetofthings.ibmcloud.com/dashboard/devices/browse
 * click on your device (*OPCUA1*) and *Recent Events*
 * in Node-RED app open the *inject* node and modify the *Topic*, if needed. *Topic* is set to *ns=3;s=temp;datatype=Double*, which represents the namespace, the variable name and type
 * click on *deploy" to deploy the Node-RED flow
 * click on the *inject* node
 * the *OPC UA* client node is pulling the current value of the variable from the OPC UA server in intervals of 60 min.  The payload of the *OPC-UA* node is then transfered to the IoT platform, there should be events showing up under *Recent Events*
+
 ![Recent Events](recentevents.jpg)
 
+## Visualization
+The last step is to visualize the temperature values.
+* go to https://youriotorgid.internetofthings.ibmcloud.com/dashboard/boards and click on *Create New Board*, give it a name and click *Next* and *Submit*
+Now the board is created and a card on that board can be configured.
+* select the board and click on *Add New Card* 
+* click on *Line chart*, select the OPCUA1 device, click on *Next* and *Connect new data set*
+* enter the data set's parameters:
+
+| Parameter     | Value       | 
+| ------------- |:-----------:| 
+| Event         | event       | 
+| Property      | value       | 
+| Name          | Temperature | 
+| Type          | Number      | 
+| Min           | -2          | 
+| Max           | 2           | 
+ 
+* select the card size and click on *Next*
