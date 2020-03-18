@@ -11,7 +11,7 @@ So in order the access OPC UA variables a protocol conversion is needed.  If you
 It is assumed that you know the manufacturing space a bit and are signed-up with the [IBM Cloud](https://cloud.ibm.com/registration). More information about the OPC simulation server can be found [here](https://downloads.prosysopc.com/opcua/apps/JavaServer/dist/4.0.2-108/Prosys_OPC_UA_Simulation_Server_UserManual.pdf). We are using [Node-RED](https://nodered.org/docs/) which is an open source tool to quickly wire-up internet of things applications, leveraging a graphical user interface. It comes with some default functionality (e.g. input nodes, output nodes), and is extensible. 
 
 ## Steps
-Below are the steps to setup the OPC UA simulation Server with the IBM IoT Platform. The OPC UA Simulation server and the Node-RED gateway will be running locally. A deployment of a cloud is possible as well as long as all components have a network connection.
+Below are the steps to setup the OPC UA simulation Server with the IBM IoT Platform. The OPC UA Simulation server and the Node-RED gateway will be running locally. 
 
 ### OPC UA Simulation Server 
 First we want to generate some date. In this case we are using the free **Prosys OPC UA Simulation Server**, that runs on Windows, Linux and MacOS
