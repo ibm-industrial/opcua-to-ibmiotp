@@ -1,41 +1,25 @@
 # Transfer OPC UA Data to the IBM Internet of Things platform
 ## Introduction
-More and more manufacturing enterprises want to tighter integrate their manufacturing systems, also called operations technology (OT), with their informations technology systems to become more productive and flexible. While modern IT systems use protocols like http, websockets, MQTT (for IoT) and architectural styles (e.g. REST), for OT systems a variety of other protocols are being used. In order to access this data a protocol conversion is needed. 
+More and more manufacturing enterprises want to tighter integrate their manufacturing systems, also called operations technology (OT, think of equipment, [SCADA](https://en.wikipedia.org/wiki/SCADA) or [PLC systems](https://en.wikipedia.org/wiki/Programmable_logic_controller)), with their informations technology systems to become more productive and flexible. While modern IT systems use protocols like http, websockets, MQTT (for IoT) and architectural styles (e.g. REST), for OT systems a variety of other protocols are being used. In order to access this data a protocol conversion is needed. 
 
 ![Data flow](OpcuaToIotp2.jpg)
 
-Fortunately [OPC UA](https://en.wikipedia.org/wiki/OPC_Unified_Architecture) becomes a standard protocol and OPC UA servers can be used to collect data from southbound automation systems (like SCADA, PLC) that later can be consumed on the shopfloor/OT (e.g. predictive maintenance) or in combined OT/IT uses cases, e.g ranging from a simple visualization of sensor data to more complex applications like a worker assistant.
-The tutorial can help IT and OT people generate OPC UA data simulating machines and sensors that then can be consumed on the IBM IoT platform.
-## Prerequisites
-Some basic understanding and proficiency is required to implement this scenarios in the following areas: 
-- Node-RED
-- IBM Cloud
-- OPC UA 
-- Ubuntu command line 
-- VNC or similar tool (for the optional installation of the Prosys OPC UA Simulation Server on the IBM Cloud)
+Fortunately [OPC UA](https://en.wikipedia.org/wiki/OPC_Unified_Architecture) becomes a standard protocol and OPC UA servers can be used to connect OT systems (like SCADA, PLC) which each other and with IT systems. If you want to try out the visualization of sensor data or build a worker assistant based on OPC UA you can use the tutorial as a starting point. An OPC UA Simulation Server will be used to simulate the 
 
-You also need 
-- an IBM Cloud account, please sign-up with the [IBM Cloud](https://cloud.ibm.com/registration) if not done already, and
-- a free [Prosys OPC UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/), see also the [user manual] (https://downloads.prosysopc.com/opcua/apps/JavaServer/dist/4.0.2-108/Prosys_OPC_UA_Simulation_Server_UserManual.pdf)
+## Prerequisites
+To implement this scenario you need 
+- an IBM Cloud account, please sign-up with the [IBM Cloud](https://cloud.ibm.com/registration) if not done already,
+- a free [Prosys OPC UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/), which runs on Windows, Linux and MacOS , see also the [user manual] (https://downloads.prosysopc.com/opcua/apps/JavaServer/dist/4.0.2-108/Prosys_OPC_UA_Simulation_Server_UserManual.pdf)
+
+It is assumed that you have some OT proficiency already.
 
 ## Steps
 Below are the steps to consume the OPC UA data on the IoT platform. 
 
-### OPC UA VM (optional) 
-In real production environments OPC UA servers run, of course, in secured network zones near the machines and are not internet-accessible for security reasons. However, for our prototype we can create an Ubuntu VM on the IBM Cloud and deploy the OPC UA server in that VM so the OPC UA Server can be shared:
-* create an [Ubuntu 16.04 VM](https://cloud.ibm.com/classic/devices) with a public IP address (your-opc-ua-server-address)
-* note down the root password and the public IP address of the Ubuntu VM
-* setup [security groups](https://cloud.ibm.com/classic/security/securitygroups) for the ports that are needed for that device: allow_opc_ua/inbound&outbound/53530, allow_ssh/inbound/22, allow_vnc/inbound/5900-5999 and assign them to the VM
-The Prosys OPC UA Simulation has a graphical interface
-* install a web browser from the Ubuntu command line
-
-
-You could, of course, run the Prosys OPC UA Simulation Server on your laptop as well if it is accessible from the Node-RED gateway.
-
 ### OPC UA Simulation Server 
 We are using the Prosys OPC UA Simulation server generating the simulation data
-* download and install the Prosys OPC UA Simulation Server  via the Ubuntu desktop,  either on the Ubuntu VM or the local machine
-* run the *Prosys OPC UA Simulation Server* from the Ubuntu desktop and note down the ocp.tcp address, e.g. opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
+* download and install the Prosys OPC UA Simulation Server on your laptop
+* run the *Prosys OPC UA Simulation Server* from the desktop and note down the ocp.tcp address, e.g. opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
 * activate *Options > Expert Mode*
 * on the Simulation tab modify the simulation data that is needed
 
