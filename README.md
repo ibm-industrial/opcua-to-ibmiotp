@@ -11,12 +11,13 @@ So in order the access OPC UA variables a protocol conversion is needed.  If you
 It is assumed that you know the manufacturing space a bit and are signed-up with the [IBM Cloud](https://cloud.ibm.com/registration). More information about the OPC simulation server can be found [here](https://downloads.prosysopc.com/opcua/apps/JavaServer/dist/4.0.2-108/Prosys_OPC_UA_Simulation_Server_UserManual.pdf). We are using [Node-RED](https://nodered.org/docs/) which is an open source tool to quickly wire-up internet of things applications, leveraging a graphical user interface. It comes with some default functionality (e.g. input nodes, output nodes), and is extensible. 
 
 ## Steps
-Below are the steps to setup the OPC UA simulation Server with the IBM IoT Platform. The OPC UA Simulation server and the Node-RED gateway will be running locally. 
+Below are the steps to setup the OPC UA simulation Server with the IBM IoT Platform. The OPC UA simulation server and the Node-RED gateway will be running locally. 
 
 ### OPC UA Simulation Server 
-First we want to generate some date. In this case we are using the free **Prosys OPC UA Simulation Server**, that runs on Windows, Linux and MacOS
-* download and install the free [Prosys OPC UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/)
-* run the *Prosys OPC UA Simulation Server*  and note down the ocp.tcp address, e.g. opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
+First we want to generate some date. In this case we are using the free [PROSYS OPC UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/), that runs on Windows, Linux and MacOS
+* download and install the PROSYS OPC UA Simulation Server
+* run the *PROSYS OPC UA Simulation Server*  
+* note down the ocp.tcp address, e.g. opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
 
 ![tcp address](prosys1.jpg)
 
@@ -25,17 +26,14 @@ First we want to generate some date. In this case we are using the free **Prosys
 
 ![Simulation Data](./prosys.jpg)
 
-I added a *temp* parameter that ranges from -2 to 2 (just because that is the default). On the *Address Space* tab you can see the attribute values of all simulated variables. We later need them as paramaters in the Node-RED gateway, example: *ns=3;s=temp* 
-
-**Optional (for testing purposes)** 
-Now the OPC UA simulation server generates data. If you want to double-check on this you can install an OPC UA client on your local machine and connect to the OPC UA server using the ocp.tcp address gathered above.
+I added an OPC UA object *MIB* and a variable *temp* that ranges from -2 to 2 (just because that is the default). On the *Address Space* tab you can see the attribute values of all simulated variables. We later need them as paramaters in the Node-RED gateway, example: *ns=3;s=temp* 
 
 ### Watson IoT Platform
-In this solution the Watson IoT platform has to purposes:
+The purpose of Watson IoT platform is twofold:
 1. it acts as an MQTT broker, receiving and forwarding MQTT events , and
-2. it visualizes events on a dashboard. 
+2. it visualizes the events on a dashboard. 
 
-In this step we create an IoT service and a device in that service that represents Node-RED gateway sending events to the IoT service:
+We create an IoT service and a device in that service that represents Node-RED gateway sending events to the IoT service:
 * go to the [IBM Cloud catalog](https://cloud.ibm.com/catalog)
 * create a free (Lite plan) [Internet of Things Platform service](https://cloud.ibm.com/catalog/services/internet-of-things-platform)
 * note down your Internet of Things Organization ID, e.g. *lt9l36*
@@ -45,21 +43,30 @@ In this step we create an IoT service and a device in that service that represen
 
 Use descriptive names for the *Device Type* (e.g. *OPCUA*) and the *Device ID* (e.g. *OPCUA1*) and note them down. The *Authentication Token* can be generated automatically.
 
-Now the IoT service is running and the devices created, waiting for events to arrive.
+Now the IoT service is running and the device created, waiting for events to arrive. But before we create our visualization (temperature graph) we want to connect the OPC UA simulation server with the IoT service. 
 
 ### Node-RED Gateway
-Before we create our visualization (temperature graph) on the Watson IoT platform we want to connect the OPC UA simulation server with the IoT service. We use a simple Node-RED flow receiving incoming OPC UA messages from the OPC simulation server and sending them straight away to the IoT service. 
+We use a simple Node-RED flow receiving messages from the OPC simulation server and sending them straight away to the IoT service. 
 
-* install Node-RED [locally](https://nodered.org/docs/getting-started/local), as a [Docker container](https://nodered.org/docs/getting-started/docker) 
- In our case we need two nodes that are not pre-installed, so we need to add them to the [Node-RED palette](https://nodered.org/docs/user-guide/editor/palette/), here is a [video](https://www.youtube.com/watch?v=Wlwe5Xry5cA) how that works
-* install the *node-red-contrib-opcua* and the *node-red-contrib-ibm-watson-iot* nodes via the Hamburger icon > Manage palette
-* import the [Node-RED flow](./node-red-flow) 
+* install Node-RED [locally](https://nodered.org/docs/getting-started/local) or as a [Docker container](https://nodered.org/docs/getting-started/docker) 
+ In our case we need two Node-RED nodes that are not pre-installed, so we need to add them to the [Node-RED palette](https://nodered.org/docs/user-guide/editor/palette/) manually before we can use them; that's a simple task, here is a [video](https://www.youtube.com/watch?v=Wlwe5Xry5cA) how that works
+* just install the *node-red-contrib-opcua* and the *node-red-contrib-ibm-watson-iot* nodes via the Hamburger icon > Manage palette
+Now that the nodes are installed you can
+* import the [Node-RED flow](./node-red-flow) , again using the Hamburger icon 
 
 ![Node-RED Flow](noderedflow.jpg)
 
-We need to configure the input and the output nodes:
+We need to configure our input and the output nodes:
 * The OPC UA client node *OPC-UA* connects to the OPC UA simulation server: Enter the endpoint = opc.tcp://your-opc-ua-server-address:53530/OPCUA/SimulationServer
 * The Watson IoT node connects to our devise: Enter Organization, Server-Name (youriotorgid.internetofthings.ibmcloud.com), Device Type, Device ID, Auth Token; 
+
+* in the Node-RED app open the *inject* node and modify the *Topic*, if needed. *Topic* is set to *ns=3;s=temp;datatype=Double*, which represents the namespace, the variable name and type
+
+![Inject Node](injectnode.jpg)
+
+* click on *deploy" to deploy the Node-RED flow
+* click on the *inject* node
+* the *OPC UA* client node is pulling the current value of the variable from the OPC UA server in intervals of 60 seconds.  The payload of the *OPC-UA* node is then transfered to the IoT platform, there should be events showing up under *Recent Events*
 
 When finished, click on *Deploy*.  Now the Node-RED flow is running and the OPC UA messages should appear in the [debug sidebar](https://nodered.org/docs/user-guide/editor/sidebar/debug).
 
@@ -67,10 +74,6 @@ When finished, click on *Deploy*.  Now the Node-RED flow is running and the OPC 
 Let's go to the Watson IoT platform and check if we can see the temperature events there:
 * go to https://youriotorgid.internetofthings.ibmcloud.com/dashboard/devices/browse
 * click on your device (*OPCUA1*) and *Recent Events*
-* in the Node-RED app open the *inject* node and modify the *Topic*, if needed. *Topic* is set to *ns=3;s=temp;datatype=Double*, which represents the namespace, the variable name and type
-* click on *deploy" to deploy the Node-RED flow
-* click on the *inject* node
-* the *OPC UA* client node is pulling the current value of the variable from the OPC UA server in intervals of 60 seconds.  The payload of the *OPC-UA* node is then transfered to the IoT platform, there should be events showing up under *Recent Events*
 
 ![Recent Events](recentevents.jpg)
 
