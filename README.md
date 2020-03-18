@@ -1,24 +1,21 @@
 # Transfer OPC UA Data to the IBM Internet of Things platform
 ## Introduction
-More and more manufacturing enterprises want to tighter integrate their manufacturing systems, also called operations technology (OT, think of equipment, [SCADA](https://en.wikipedia.org/wiki/SCADA) or [PLC systems](https://en.wikipedia.org/wiki/Programmable_logic_controller)), with their informations technology systems to become more productive and flexible. While modern IT systems use protocols like http, websockets, MQTT (for IoT) and architectural styles (e.g. REST), for OT systems a variety of other protocols are being used. In order to access this data a protocol conversion is needed. 
+More and more manufacturing enterprises want to tighter integrate their manufacturing systems, also called operations technology (OT), with their informations technology systems to become more productive and flexible.  Many use [OPC UA](https://en.wikipedia.org/wiki/OPC_Unified_Architecture) which becomes a standard protocol.
+A typical scenario is the transmission of data to control systems like [SCADA](https://en.wikipedia.org/wiki/SCADA) or [PLC](https://en.wikipedia.org/wiki/Programmable_logic_controller)) systems. The data is stored in OPC UA variables and contains production status, environment conditions and alike. Problem is, while modern IT systems use protocols like http, websockets, MQTT (for IoT) and architectural styles (e.g. REST), for OT systems a variety of other protocols are being used.
 
 ![Data flow](OpcuaToIotp2.jpg)
 
-Fortunately [OPC UA](https://en.wikipedia.org/wiki/OPC_Unified_Architecture) becomes a standard protocol and OPC UA servers can be used to connect OT systems (like SCADA, PLC) which each other and with IT systems. If you want to try out the visualization of sensor data or build a worker assistant based on OPC UA you can use the tutorial as a starting point. An OPC UA Simulation Server will be used to simulate the 
+So in order the access OPC UA variables a protocol conversion is needed.  If you want to try out the visualization of sensor data or build a more sophisticated solution (e.g. worker assistant) based on OPC UA you can use this tutorial as a starting point. The OPC UA Simulation Server will be used to simulate an OPC UA server connected to a temperature sensor which is permenantly generating random temperature values.   
 
 ## Prerequisites
-To implement this scenario you need 
-- an IBM Cloud account, please sign-up with the [IBM Cloud](https://cloud.ibm.com/registration) if not done already,
-- a free [Prosys OPC UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/), which runs on Windows, Linux and MacOS , see also the [user manual] (https://downloads.prosysopc.com/opcua/apps/JavaServer/dist/4.0.2-108/Prosys_OPC_UA_Simulation_Server_UserManual.pdf)
-
-It is assumed that you have some OT proficiency already.
+It is assumed that you know the manufacturing space a bit and are signed-up with the [IBM Cloud](https://cloud.ibm.com/registration). More information about the OPC simulation server can be found in the [Prosys_OPC_UA_Simulation_Server_User Manual] (https://downloads.prosysopc.com/opcua/apps/JavaServer/dist/4.0.2-108/Prosys_OPC_UA_Simulation_Server_UserManual.pdf)
 
 ## Steps
-Below are the steps to consume the OPC UA data on the IoT platform. 
+Below are the steps to setup the OPC UA Simulation Server with the IBM IoT Platform. The OPC UA Simulation server and the Node-RED gateway will be running locally. A deployment of a cloud is possible as well as long as all components have a network connection.
 
 ### OPC UA Simulation Server 
 We are using the Prosys OPC UA Simulation server generating the simulation data
-* download and install the Prosys OPC UA Simulation Server on your laptop
+* download and install the free [Prosys OPC UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/) which runs on Windows, Linux and MacOS
 * run the *Prosys OPC UA Simulation Server* from the desktop and note down the ocp.tcp address, e.g. opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
 * activate *Options > Expert Mode*
 * on the Simulation tab modify the simulation data that is needed
