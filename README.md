@@ -8,45 +8,53 @@ A typical scenario is the transmission of data to control systems like [SCADA](h
 So in order the access OPC UA variables a protocol conversion is needed.  If you want to try out the visualization of sensor data or build a more sophisticated solution (e.g. worker assistant) based on OPC UA you can use this tutorial as a starting point. The OPC UA Simulation Server will be used to simulate an OPC UA server connected to a temperature sensor which is permenantly generating random temperature values.   
 
 ## Prerequisites
-It is assumed that you know the manufacturing space a bit and are signed-up with the [IBM Cloud](https://cloud.ibm.com/registration). More information about the OPC simulation server can be found in the [Prosys_OPC_UA_Simulation_Server_User Manual] (https://downloads.prosysopc.com/opcua/apps/JavaServer/dist/4.0.2-108/Prosys_OPC_UA_Simulation_Server_UserManual.pdf)
+It is assumed that you know the manufacturing space a bit and are signed-up with the [IBM Cloud](https://cloud.ibm.com/registration). More information about the OPC simulation server can be found [here](https://downloads.prosysopc.com/opcua/apps/JavaServer/dist/4.0.2-108/Prosys_OPC_UA_Simulation_Server_UserManual.pdf). We are using [Node-RED](https://nodered.org/docs/) which is an open source tool to quickly wire-up internet of things applications. A graphical user interface where you can add certain nodes and connect them. It comes with some default functionality (e.g. input nodes, output nodes), and is extensible. 
 
 ## Steps
 Below are the steps to setup the OPC UA Simulation Server with the IBM IoT Platform. The OPC UA Simulation server and the Node-RED gateway will be running locally. A deployment of a cloud is possible as well as long as all components have a network connection.
 
 ### OPC UA Simulation Server 
-We are using the Prosys OPC UA Simulation server generating the simulation data
+First we want to generate some date. In this case we are using the Prosys OPC UA Simulation server.
 * download and install the free [Prosys OPC UA Simulation Server](https://www.prosysopc.com/products/opc-ua-simulation-server/) which runs on Windows, Linux and MacOS
 * run the *Prosys OPC UA Simulation Server* from the desktop and note down the ocp.tcp address, e.g. opc.tcp://your-opc-ua-address:53530/OPCUA/SimulationServer
-* activate *Options > Expert Mode*
-* on the Simulation tab modify the simulation data that is needed
+[tcp address](prosys1.jpg)
+* active the export mode by clicking on activate *Options > Expert Mode*
+* on the Simulation tab modify the simulation data that is needed.
 
 ![Simulation Data](./prosys.jpg)
 
-I added a temp parameter that ranges from -2 to 2 (default). On the Address Space tab you can see the attribute values of all simulated variables; we are using the temp varibale:  *ns=3;s=temp* 
+I added a temp parameter that ranges from -2 to 2 (just because that is the default). On the Address Space tab you can see the attribute values of all simulated variables. We later need them as paramaters in the Node-RED gateway, example: *ns=3;s=temp* 
 
 **Optional (for testing purposes)** 
-* install an OPC UA client on your local machine and connect to the OPC UA server using the ocp.tcp address
+Now the OPC UA simulation server generates data. If you want to double-check on this you can 
+* install an OPC UA client on your local machine and connect to the OPC UA server using the ocp.tcp address gathered above.
 
 ### IoT Platform
-The IoT platform is used as an MQTT broker, receiving and forwarding MQTT events as well as visualizing them on a dashboard. 
+The IoT platform is used 
+1. as an MQTT broker, receiving and forwarding MQTT events 
+2. as well as visualizing them on a dashboard. 
+In this step we create an IoT service and a device in that service that represents Node-RED gateway sending events to the IoT service:
 * create an [Internet of Things Platform service](https://cloud.ibm.com/catalog/services/internet-of-things-platform) and note down your Internet of Things Organization ID, e.g. *lt9l36*
-* create an Internet of Things *device*, which represents the interface to the Node-RED application; note down the *Device Type* (e.g. *OPCUA*), *Device ID* (e.g. *OPCUA1*) and the *Authentication Token*
+* create an Internet of Things *device*, see the [Getting Started](https://cloud.ibm.com/docs/services/IoT?topic=iot-platform-getting-started) guide
+* note down the *Device Type* (e.g. *OPCUA*), *Device ID* (e.g. *OPCUA1*) and the *Authentication Token* (which can be generated automatically).
+Now the IOT service is running and waiting for events.
 
-### OPC UA Broker
-A **Node-RED** instance receives incoming OPC UA messages from the OPC simulation server and sends them to the IoT platform. 
+### Node-RED Gateway
+Before we create our visualization (temperature graph) on the IOT platform we want to connect the OPC UA simulation server with the IoT platform. We use a simple Node-RED flow receiving incoming OPC UA messages from the OPC simulation server and sending them straight away to the IoT platform. 
 
-* install Node-RED [locally](https://nodered.org/docs/getting-started/local), as a [Docker container](https://nodered.org/docs/getting-started/docker) or as part of the [Node-RED starter kit](https://cloud.ibm.com/developer/appservice/starter-kits/59c9d5bd-4d31-3611-897a-f94eea80dc9f/nodered) on the IBM Cloud
+* install Node-RED [locally](https://nodered.org/docs/getting-started/local), as a [Docker container](https://nodered.org/docs/getting-started/docker) 
+ In our case we need two nodes, that are not pre-installed, so we need to add them to the [Node-RED palette](https://nodered.org/docs/user-guide/editor/palette/)
 * install the *node-red-contrib-opcua* and the *node-red-contrib-ibm-watson-iot* nodes via the Hamburger icon > Manage palette
 * import the [Node-RED flow](./node-red-flow) 
 
 ![Node-RED Flow](noderedflow.jpg)
-* configure the OPC UA client node *OPC-UA*: Endpoint = opc.tcp://your-opc-ua-server-address:53530/OPCUA/SimulationServer
-* configure the Watson IoT node: Organization, Server-Name (youriotorgid.internetofthings.ibmcloud.com), Device Type, Device ID, Auth Token 
-
-It should be mentioned that although Node-RED can be used to quickly build prototypes, in real production scenarios [IBM App Connect for Manufacturing](https://developer.ibm.com/integration/blog/2019/06/21/ibm-app-connect-for-manufacturing-2-0-is-now-available) can be used as a more robust (or more readily manageable) gateway to tackle more massive deployments.
+* configure the OPC UA client node *OPC-UA*: Endpoint = opc.tcp://your-opc-ua-server-address:53530/OPCUA/SimulationServer; this node will connect to the OPC UA simulation server
+* configure the Watson IoT node: Organization, Server-Name (youriotorgid.internetofthings.ibmcloud.com), Device Type, Device ID, Auth Token ; this node will send the data to the IOT platform
+* click on *Deploy*
+Now the Node-RED flow is running an the OPC UA messages should appear in the [debug sidebar](https://nodered.org/docs/user-guide/editor/sidebar/debug).
 
 ### Test
-Now we connect the Node-RED flow with the Watson IoT platform and check if we can see the temperature events there.
+Let's go to the IoT platform and check if we can see the temperature events there:
 * go to https://youriotorgid.internetofthings.ibmcloud.com/dashboard/devices/browse
 * click on your device (*OPCUA1*) and *Recent Events*
 * in the Node-RED app open the *inject* node and modify the *Topic*, if needed. *Topic* is set to *ns=3;s=temp;datatype=Double*, which represents the namespace, the variable name and type
@@ -82,3 +90,4 @@ Now you can see the simulated temperature generated by the OPC UA server on the 
 
 The data can also be used by northbound applications, see [Application Development](https://www.ibm.com/support/knowledgecenter/SSQP8H/iot/platform/applications/app_dev_index.html).
 
+It should be mentioned that although Node-RED can be used to quickly build prototypes, in real production scenarios [IBM App Connect for Manufacturing](https://developer.ibm.com/integration/blog/2019/06/21/ibm-app-connect-for-manufacturing-2-0-is-now-available) can be used as a more robust (or more readily manageable) gateway to tackle more massive deployments.
